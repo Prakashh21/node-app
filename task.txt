@@ -7,8 +7,10 @@ GET api/users/2 -- get the data of user with id = 2
 
 GET /user/1 -- sends the server side rendered page with data of the user
 
-POST /user - Create new user
 
-PATCH /user/id/1 - Edit the user with ID 1
 
-DELETE /user/id/1 - Delete the user with ID 1
+POST /api/users - Create new user
+
+PATCH /api/users/id/1 - Edit the user with ID 1
+
+DELETE /api/users/id/1 - Delete the user with ID 1

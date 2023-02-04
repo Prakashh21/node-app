@@ -2,35 +2,25 @@ const express = require("express")
 const fs = require("fs")
 const app = express()
 const mongoose = require("mongoose")
-// const users = require("./Database/MOCK_DATA.json")
+const { connectMongoDb } = require("./connection")
+const {logReqRes} = require("./middlewares")
+const userRouter = require("./routes/user")
 
+// Connecting to mongoDB
 
-// app.use((req , res) =>{
-//     console.log("request received on ---->",req.url)
-//     next()
-// })
+connectMongoDb('mongodb://127.0.0.1:27017/node-app').then(() => console.log("mongoDb connected !!"))
 
-//  establishing connection with mongoDB
-
-mongoose.connect('mongodb://127.0.0.1:27017/node-app')
-.then(() => console.log("mongoDb connection established"))
-.catch((err) => console.log("Mongo Error", err ));
-
-
-// schema
-
-
+// Middlewares
 
 app.use(express.urlencoded({extended:false}))
 
-app.use((req , res , next) => {
-    console.log("request recieved on the route --> ", req.url)
-    fs.appendFile("log.txt" , `\n time: ${Date.now()} , path: ${req.url}`, (data , err) => {
-        next()
-    })
-})
+app.use(logReqRes('log.txt'))
 
+// Routes
 
+app.use("/api/user", userRouter)
 
 
 app.listen(8000, () => console.log("listening on port 8000"))
+
+
